@@ -1,37 +1,130 @@
 type StreamCreated @entity(immutable: true) {
-  id: Bytes!
-  tokenAddress: Bytes! # address
-  flowRate: BigInt! # int96
-  receiver: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  id: ID!
+  stream: Stream!
+  transaction: Transaction!
 }
 
 type StreamDeleted @entity(immutable: true) {
-  id: Bytes!
-  tokenAddress: Bytes! # address
-  receiver: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  id: ID!
+  stream: Stream!
+  transaction: Transaction!
 }
 
 type StreamUpdated @entity(immutable: true) {
-  id: Bytes!
-  tokenAddress: Bytes! # address
-  flowRate: BigInt! # int96
-  receiver: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  id: ID!
+  stream: Stream!
+  transaction: Transaction!
+  oldFlowRate: BigInt!
+  newFlowRate: BigInt!
+  flowRateDelta: BigInt!
 }
 
 type TokenWrapped @entity(immutable: true) {
-  id: Bytes!
-  tokenAddress: Bytes! # address
-  amount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  id: ID!
+  token: Token!
+  transaction: Transaction!
+  amount: BigInt!
+}
+
+type Stream @entity {
+  id: ID!
+  token: Token!
+  sender: Wallet!
+  receiver: Wallet!
+  flowRate: BigInt!
+  totalAmountStreamed: BigInt!
+  lastUpdatedAtBlock: Block!
+  lastUpdatedAtTimestamp: BigInt!
+  createdAtBlock: Block!
+  createdAtTimestamp: BigInt!
+  createdAtTransaction: Transaction!
+  updatedEvents: [StreamUpdated!]! @derivedFrom(field: "stream")
+  deletedEvent: StreamDeleted @derivedFrom(field: "stream")
+  isActive: Boolean!
+  duration: BigInt!
+  startedAtTimestamp: BigInt!
+  stoppedAtTimestamp: BigInt
+  startedAtBlock: Block!
+  stoppedAtBlock: Block
+}
+
+type Token @entity {
+  id: ID!
+  address: Bytes!
+  name: String!
+  symbol: String!
+  decimals: Int!
+  totalSupply: BigInt!
+  lastUpdatedAtBlock: Block!
+  lastUpdatedAtTimestamp: BigInt!
+  wrappedEvents: [TokenWrapped!]! @derivedFrom(field: "token")
+  totalAmountWrapped: BigInt!
+  activeStreams: [Stream!]! @derivedFrom(field: "token")
+  historicalStreams: [Stream!]! @derivedFrom(field: "token")
+  totalAmountStreamed: BigInt!
+  totalActiveStreams: Int!
+  totalHistoricalStreams: Int!
+}
+
+type Transaction @entity {
+  id: ID!
+  block: Block!
+  from: Wallet!
+  to: Wallet!
+  value: BigInt!
+  gasUsed: BigInt!
+  gasPrice: BigInt!
+  streamCreatedEvents: [StreamCreated!]! @derivedFrom(field: "transaction")
+  streamUpdatedEvents: [StreamUpdated!]! @derivedFrom(field: "transaction")
+  streamDeletedEvents: [StreamDeleted!]! @derivedFrom(field: "transaction")
+  tokenWrappedEvents: [TokenWrapped!]! @derivedFrom(field: "transaction")
+  timestamp: BigInt!
+  transactionIndex: Int!
+}
+
+type Block @entity {
+  id: ID!
+  number: BigInt!
+  timestamp: BigInt!
+  transactions: [Transaction!]! @derivedFrom(field: "block")
+  totalTransactions: Int!
+  gasUsed: BigInt!
+  gasLimit: BigInt!
+  parentHash: Bytes!
+  unclesHash: Bytes!
+  miner: Bytes!
+  difficulty: BigInt!
+  totalDifficulty: BigInt!
+  size: BigInt!
+  extraData: Bytes!
+  stateRoot: Bytes!
+  transactionsRoot: Bytes!
+  receiptsRoot: Bytes!
+  logsBloom: Bytes!
+  mixHash: Bytes!
+  nonce: Bytes!
+}
+
+type Wallet @entity {
+  id: ID!
+  address: Bytes!
+  outgoingStreams: [Stream!]! @derivedFrom(field: "sender")
+  incomingStreams: [Stream!]! @derivedFrom(field: "receiver")
+  transactions: [Transaction!]! @derivedFrom(field: "from")
+  totalAmountSent: BigInt!
+  totalAmountReceived: BigInt!
+  activeOutgoingStreams: [Stream!]!
+  activeIncomingStreams: [Stream!]!
+  historicalOutgoingStreams: [Stream!]!
+  historicalIncomingStreams: [Stream!]!
+  totalOutgoingStreams: Int!
+  totalIncomingStreams: Int!
+  totalActiveOutgoingStreams: Int!
+  totalActiveIncomingStreams: Int!
+  totalHistoricalOutgoingStreams: Int!
+  totalHistoricalIncomingStreams: Int!
+  firstStreamedAtTimestamp: BigInt
+  lastStreamedAtTimestamp: BigInt
+  firstStreamedAtBlock: Block
+  lastStreamedAtBlock: Block
 }

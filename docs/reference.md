@@ -18,3 +18,10 @@
 ### SuperTokens
 
 [Sepolia Super tokens](https://console.superfluid.finance/eth-sepolia/supertokens)
+
+## The Graph
+
+[サブグラフの作成](https://thegraph.com/docs/ja/developing/creating-a-subgraph/)
+[クイックスタート](https://thegraph.com/docs/ja/quick-start/)
+[GraphQL API](https://thegraph.com/docs/ja/querying/graphql-api/)
+

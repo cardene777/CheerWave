@@ -1,7 +1,11 @@
 import Image from "next/image";
-import { Navigation } from "@/components/Navigation";
+import { Navigation } from "@/components/parts/Navigation";
+import { useConnect } from "wagmi";
+import { injected } from "wagmi/connectors";
+import { Button } from "@/components/ui/button";
 
 export function Header() {
+  const { connect } = useConnect();
   return (
     <header className="flex w-full items-center justify-between px-10 py-5 bg-gray-100">
       <div className="logo">
@@ -15,9 +19,7 @@ export function Header() {
       <div className="navigation">
         <Navigation />
       </div>
-      <button className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-        Connect Wallet
-      </button>
+      <Button onClick={() => connect({ connector: injected() })}>Connect Wallet</Button>
     </header>
   );
 }

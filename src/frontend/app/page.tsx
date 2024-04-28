@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Header } from "@/components/Header"; // Header コンポーネントをインポート
-import { CardItem } from "@/components/Card";
+import { Header } from "@/components/parts/Header"; // Header コンポーネントをインポート
+import { CardItem } from "@/components/parts/Card";
 
 export default function Home() {
   const [cardCount, setCardCount] = useState(0);
