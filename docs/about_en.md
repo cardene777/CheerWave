@@ -34,6 +34,3 @@
 - Use it to quickly notify the front end that a creator or user is starting/stopping assistance to a creator.
 - We decided to use The Graph because we want to notify the front end with as much real-time information as possible.
 - Also, by being able to pass information to the front end in real time, we believe that the application itself will be able to do more, and we can look forward to future extensibility.
-
-
-Translated with www.DeepL.com/Translator (free version)
