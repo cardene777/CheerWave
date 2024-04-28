@@ -1,0 +1,35 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: FlowSender
+    network: sepolia
+    source:
+      address: "0x063Fb2C8132B8311715458114F8CF10AC2d59204"
+      abi: FlowSender
+      startBlock: 5795436
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - StreamCreated
+        - StreamDeleted
+        - StreamUpdated
+        - TokenWrapped
+      abis:
+        - name: FlowSender
+          file: ./abis/FlowSender.json
+      eventHandlers:
+        - event: StreamCreated(indexed address,int96,indexed address)
+          handler: handleStreamCreated
+        - event: StreamDeleted(indexed address,indexed address)
+          handler: handleStreamDeleted
+        - event: StreamUpdated(indexed address,int96,indexed address)
+          handler: handleStreamUpdated
+        - event: TokenWrapped(indexed address,uint256)
+          handler: handleTokenWrapped
+      file: ./src/flow-sender.ts

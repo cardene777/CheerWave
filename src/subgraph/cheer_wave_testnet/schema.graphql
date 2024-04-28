@@ -1,0 +1,37 @@
+type StreamCreated @entity(immutable: true) {
+  id: Bytes!
+  tokenAddress: Bytes! # address
+  flowRate: BigInt! # int96
+  receiver: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type StreamDeleted @entity(immutable: true) {
+  id: Bytes!
+  tokenAddress: Bytes! # address
+  receiver: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type StreamUpdated @entity(immutable: true) {
+  id: Bytes!
+  tokenAddress: Bytes! # address
+  flowRate: BigInt! # int96
+  receiver: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TokenWrapped @entity(immutable: true) {
+  id: Bytes!
+  tokenAddress: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
