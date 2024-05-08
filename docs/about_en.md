@@ -21,7 +21,7 @@
 - It is more flexible than Gitcoin.
 - No complicated steps are required, as individuals can continuously donate as they wish, at any time they wish.
 
-## Challenges.
+## Challenges
 
 ### Identity verification
 
